@@ -17,6 +17,10 @@ body {
   flex: 1;
 }
 
+.classreact {
+  display: flex;
+  flex-direction: column;
+}
 .bg-dark {
   background-color: #12002b;
 }
@@ -166,7 +170,13 @@ body {
   margin-top: 1rem;
   border-color: #00bc77;
   background-color: #00bc77;
-  color: #fff;
+  & a {
+    text-decoration: underline;
+    color: #fff;
+  }
+  & p {
+    margin: 0;
+  }
 }
 
 .sign-in-content {
@@ -176,6 +186,7 @@ body {
   margin: 0 auto;
   margin-top: 3rem;
   padding: 2rem;
+  margin-bottom: 10rem;
 }
 
 .sign-in-icon {
