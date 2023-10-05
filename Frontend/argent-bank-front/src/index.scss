@@ -304,3 +304,32 @@ body {
     width: 200px;
   }
 }
+
+.ErrorWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 139px;
+  color: #00bc77;
+  margin: 30px;
+}
+
+.ErrorTitle {
+  font-weight: 500;
+  font-size: 36px;
+}
+
+
+
+.ErrorSubTitle {
+  font-size: 18px;
+  color: #00bc77;
+  text-decoration: underline;
+  margin-bottom: 50px;
+}
+
+.illustration {
+  object-fit: cover;
+  width: 80%;
+  height: 80%;
+}
