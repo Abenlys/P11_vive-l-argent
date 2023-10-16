@@ -30,10 +30,10 @@ export default function ModaluserName({ isOpen, onClose, title, onSave }) {
   };
 
   const handleResetUserName = async (e) => {
-    e.preventDefault()
-    setNewUserName("")
-    onClose()
-  }
+    e.preventDefault();
+    setNewUserName("");
+    onClose();
+  };
 
   if (!isOpen) {
     return null;
@@ -59,54 +59,58 @@ export default function ModaluserName({ isOpen, onClose, title, onSave }) {
         </nav>
         <h2>{title}</h2>
         <form>
-            <div className="container-form-input">
+          <div className="container-form-input">
             <div className="form-input">
-          <div>
-            <label htmlFor="newUsername">Nouveau userName</label>
-            <input
-              type="text"
-              id="newUsername"
-              name="newUsername"
-              placeholder="newUsername"
-              onChange={handleUserName}
-            />
-          </div>
-          <div>
-            <label htmlFor="oldUserName">Ancien userName</label>
-            <input
-              type="text"
-              id="oldUserName"
-              name="oldUserName"
-              value={userName}
-              disabled
-            />
-          </div>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={firstName}
-              disabled
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={lastName}
-              disabled
-            />
-          </div>
-          </div>
-          <div className="givemespace"></div>
+              <div>
+                <label htmlFor="newUsername">Nouveau userName</label>
+                <input
+                  type="text"
+                  id="newUsername"
+                  name="newUsername"
+                  placeholder="newUsername"
+                  onChange={handleUserName}
+                />
+              </div>
+              <div>
+                <label htmlFor="oldUserName">Ancien userName</label>
+                <input
+                  type="text"
+                  id="oldUserName"
+                  name="oldUserName"
+                  value={userName}
+                  disabled
+                />
+              </div>
+              <div>
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={firstName}
+                  disabled
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={lastName}
+                  disabled
+                />
+              </div>
+            </div>
+            <div className="givemespace"></div>
           </div>
           <div className="modal-container-button">
-            <button onClick={handleSubmit} className="modal-button">Save</button>
-            <button onClick={handleResetUserName} className="modal-button">Cancel</button>
+            <button onClick={handleSubmit} className="modal-button">
+              Save
+            </button>
+            <button onClick={handleResetUserName} className="modal-button">
+              Cancel
+            </button>
           </div>
         </form>
       </div>
