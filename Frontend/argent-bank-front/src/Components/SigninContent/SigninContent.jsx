@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   setEmail,
   setFirstName,
   setId,
+  setLogin,
   setPassword,
+  setToken,
   setUserName,
   setlastName,
 } from "../../features/userProfileSlice";
 import { loginUser, userProfile } from "../../utils/services/userService";
 
 export default function SigninContent() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const email = useSelector((state) => state.userProfile.email);
-  const password = useSelector((state) => state.userProfile.password);
-  const userName = useSelector((state) => state.useProfile?.userName);
+  const email = useSelector((state) => state.userProfile.user.email);
+  const password = useSelector((state) => state.userProfile.user.password);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
@@ -32,12 +34,17 @@ export default function SigninContent() {
     dispatch(setId(profileData.id));
     dispatch(setlastName(profileData.lastName));
     dispatch(setUserName(profileData.userName));
+    dispatch(setLogin());
   };
 
   const handleSignin = async () => {
     try {
       const token = await loginUser(email, password);
-      await userProfile(token, updateProfileInStore);
+      dispatch(setToken(token));
+      const something = await userProfile(token);
+      console.log(something);
+      updateProfileInStore(something);
+      navigate("/user/:id");
     } catch (error) {
       setError("une erreur s'est produite.");
     }
@@ -73,15 +80,17 @@ export default function SigninContent() {
         <div className="sign-in-button">
           <Link
             onClick={handleSignin}
-            to={`/user/${userName}`}
-            className={
-              location.pathname === `/user/${userName}` ? "active" : ""
-            }
+            className={location.pathname === "/user/:id" ? "active" : ""}
           >
             <p>Sign In</p>
           </Link>
-          {error && <p className="error-message">{error}</p>}
         </div>
+        {error && (
+          <p className="error-message">
+            La connexion a échouée <br />
+            Vérifier votre mail et mot de passe
+          </p>
+        )}
       </form>
     </section>
   );

@@ -3,31 +3,44 @@ import { createSlice } from "@reduxjs/toolkit";
 const userProfileSlice = createSlice({
   name: "userProfile",
   initialState: {
-    email: "",
-    firstName: "",
-    id: "",
-    lastName: "",
-    userName: "",
-    password: "",
+    user: {
+      email: "",
+      firstName: "",
+      id: "",
+      lastName: "",
+      userName: "",
+      password: "",
+      token: "",
+    },
+    loged: false,
   },
   reducers: {
     setEmail: (state, action) => {
-      state.email = action.payload;
+      state.user.email = action.payload;
     },
     setFirstName: (state, action) => {
-      state.firstName = action.payload;
+      state.user.firstName = action.payload;
     },
     setId: (state, action) => {
-      state.id = action.payload;
+      state.user.id = action.payload;
     },
     setlastName: (state, action) => {
-      state.lastName = action.payload;
+      state.user.lastName = action.payload;
     },
     setUserName: (state, action) => {
-      state.userName = action.payload;
+      state.user.userName = action.payload;
     },
     setPassword: (state, action) => {
-      state.password = action.payload;
+      state.user.password = action.payload;
+    },
+    setToken: (state, action) => {
+      state.user.token = action.payload;
+    },
+    setLogin: (state) => {
+      state.loged = true;
+    },
+    setLogout: (state) => {
+      state.loged = false;
     },
   },
 });
@@ -39,5 +52,8 @@ export const {
   setlastName,
   setUserName,
   setPassword,
+  setToken,
+  setLogin,
+  setLogout,
 } = userProfileSlice.actions;
 export default userProfileSlice.reducer;

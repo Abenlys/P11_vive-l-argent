@@ -21,7 +21,7 @@ export const loginUser = async (x, y) => {
   }
 };
 
-export const userProfile = async (token, onProfileFetched) => {
+export const userProfile = async (token) => {
   const responseProfile = await fetch(`${API_BASE_URL}profile`, {
     method: "POST",
     headers: {
@@ -31,9 +31,26 @@ export const userProfile = async (token, onProfileFetched) => {
   });
   if (responseProfile.ok) {
     const dataProfile = await responseProfile.json();
-    console.log(dataProfile);
-    onProfileFetched(dataProfile.body);
+    return dataProfile.body;
   } else {
     throw new Error("Echec de la récupération des infos utilisateurs");
+  }
+};
+
+export const editUserName = async (token, newUserName) => {
+  const userNameModif = { userName: newUserName };
+  const responseEditUserName = await fetch(`${API_BASE_URL}profile`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userNameModif),
+  });
+  if (responseEditUserName.ok) {
+    const fetchNewUserName = await responseEditUserName.json();
+    return fetchNewUserName;
+  } else {
+    throw new Error("Echec de la modification du username");
   }
 };
