@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  setEmail,
   setFirstName,
   setId,
   setLogin,
-  setPassword,
   setToken,
   setUserName,
   setlastName,
@@ -16,19 +14,49 @@ import { loginUser, userProfile } from "../../utils/services/userService";
 export default function SigninContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = useSelector((state) => state.userProfile.user.email);
-  const password = useSelector((state) => state.userProfile.user.password);
   const [error, setError] = useState(null);
+  const [dataLogin, setDataLogin] = useState({
+    email: "",
+    password: "",
+  });
+  // const [remenber, setRemenber] = useState(false)
   const dispatch = useDispatch();
 
-  const handleEmailChange = (event) => {
-    const newEmail = event.target.value;
-    dispatch(setEmail(newEmail));
+  const handleInfoLogin = (event) => {
+    setDataLogin({
+      ...dataLogin,
+      [event.target.id]: event.target.value,
+    });
   };
-  const handlePasswordChange = (event) => {
-    const newPassword = event.target.value;
-    dispatch(setPassword(newPassword));
+
+  const handleRememberMechange = (event) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      document.cookie = `rememberedEmail=${dataLogin.email}; Secure; SameSite=Strict`;
+      document.cookie = `rememberedPassword=${dataLogin.password}; Secure; SameSite=Strict`;
+    } else {
+      document.cookie = "rememberedEmail=; Max-Age=0; Secure; SameSite=Strict";
+      document.cookie =
+        "rememberedPassword=; Max-Age=0; Secure; SameSite=Strict";
+    }
   };
+
+  useEffect(() => {
+    const cookies = document.cookie.split("; ");
+    const rememberedEmail = cookies.find((cookie) =>
+      cookie.startsWith("rememberedEmail=")
+    );
+    const rememberedPassword = cookies.find((cookie) =>
+      cookie.startsWith("rememberedPassword=")
+    );
+    if (rememberedEmail && rememberedPassword) {
+      setDataLogin({
+        email: rememberedEmail.split("=")[1],
+        password: rememberedPassword.split("=")[1],
+      });
+    }
+  }, []);
+
   const updateProfileInStore = (profileData) => {
     dispatch(setFirstName(profileData.firstName));
     dispatch(setId(profileData.id));
@@ -39,11 +67,11 @@ export default function SigninContent() {
 
   const handleSignin = async () => {
     try {
-      const token = await loginUser(email, password);
+      const token = await loginUser(dataLogin.email, dataLogin.password);
       dispatch(setToken(token));
-      const something = await userProfile(token);
-      console.log(something);
-      updateProfileInStore(something);
+      window.localStorage.setItem("token", token)
+      const userInfo = await userProfile(token);
+      updateProfileInStore(userInfo);
       navigate("/user/:id");
     } catch (error) {
       setError("une erreur s'est produite.");
@@ -60,8 +88,8 @@ export default function SigninContent() {
           <input
             type="text"
             id="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={dataLogin.email}
+            onChange={handleInfoLogin}
           />
         </div>
         <div className="input-wrapper">
@@ -69,12 +97,16 @@ export default function SigninContent() {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={dataLogin.password}
+            onChange={handleInfoLogin}
           />
         </div>
         <div className="input-remember">
-          <input type="checkbox" id="remember-me" />
+          <input
+            type="checkbox"
+            id="remember-me"
+            onChange={handleRememberMechange}
+          />
           <label htmlFor="remember-me">Remember me</label>
         </div>
         <div className="sign-in-button">

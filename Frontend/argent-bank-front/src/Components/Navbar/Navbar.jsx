@@ -9,7 +9,7 @@ export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch()
   const loged = useSelector((state) => state.userProfile.loged);
-  const firstName = useSelector((state) => state.userProfile.user.firstName);
+  const userName = useSelector((state) => state.userProfile.user.userName);
   const handleLogOut = () => {
     dispatch(setLogout())
   }
@@ -19,7 +19,7 @@ export default function Navbar() {
         <>
         <Link className="main-nav-item">
         <i className="fa fa-user-circle"></i>
-        <p>{firstName}</p>
+        <p>{userName}</p>
         </Link>
         <Link to="/signin" className="main-nav-item" onClick={handleLogOut}>
           <i className="fa fa-sign-out"></i> <p>Sign Out</p>
